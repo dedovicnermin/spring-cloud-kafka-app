@@ -1,0 +1,43 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        process-in-0:
+          destination: word-count-input
+        process-out-0:
+          destination: word-count-output
+      kafka:
+        streams:
+          binder:
+            application-id: cloud-streams-kafka
+            brokers: localhost:9092
+            configuration:
+              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            auto-create-topics: true
+          bindings:
+            process-in-0:
+              consumer:
+                keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                valueSerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                startOffset: latest
+                dlqName: spring-cloud-app-errors
+              destination: word-count-input
+            process-out-0:
+              producer:
+                keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                valueSerde: org.apache.kafka.common.serialization.Serdes$LongSerde
+              destination: word-count-output
+
+
+
+
+
+
+
+
+
+
+
+
+
